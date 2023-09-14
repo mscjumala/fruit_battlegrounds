@@ -1,0 +1,109 @@
+local char = game:GetService('Players').LocalPlayer.Character
+local uis = game:GetService('UserInputService')
+local grinding = false
+local rendering = true
+local afkpart = Instance.new("Part", workspace)
+afkpart.Anchored = true
+afkpart.Size = Vector3.new(2000,1,2000)
+afkpart.Position = Vector3.new(979,685,-98)
+
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+    warn('AFK bypassed')
+    v:Disable()
+end
+
+local function grind()
+    while grinding do     
+        local args = {
+            [1] = "Paw",
+            [2] = "PressureCannon",
+            [3] = {}
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+        
+        wait(0.1)
+        char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0)     
+        local args = {
+            [1] = "Paw",
+            [2] = "SonicStomp",
+            [3] = {
+                ["MouseRay"] = {
+                    ["Normal"] = Vector3.xAxis,
+                    ["Direction"] = Vector3.new(-281.0707092285156, -19.477046966552734, 103.0528564453125),
+                    ["Origin"] = Vector3.new(1005.0068969726562, 691.8860473632812, -113.85356140136719),
+                    ["Instance"] = workspace:WaitForChild("Map"):WaitForChild("Part"),
+                    ["Distance"] = 62.83842849731445,
+                    ["Material"] = Enum.Material.Foil,
+                    ["Position"] = Vector3.new(946.1334228515625, 687.8063354492188, -92.26795959472656)
+                }
+            }
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+        wait(0.1)        
+        char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0)  
+        local args = {
+            [1] = "Paw",
+            [2] = "SumoThrustBarrage",
+            [3] = {
+                ["MouseRay"] = {
+                    ["Normal"] = Vector3.xAxis,
+                    ["Direction"] = Vector3.new(-295.1795349121094, -24.07211685180664, -47.84962844848633),
+                    ["Origin"] = Vector3.new(991.8577270507812, 693.065185546875, -99.29689025878906),
+                    ["Instance"] = workspace:WaitForChild("Map"):WaitForChild("Part"),
+                    ["Distance"] = 46.47101593017578,
+                    ["Material"] = Enum.Material.Foil,
+                    ["Position"] = Vector3.new(946.1334228515625, 689.3363037109375, -106.70895385742188)
+                }
+            }
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+        wait(0.1)        
+        char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+        local args = {
+            [1] = "Paw",
+            [2] = "Torture",
+            [3] = {
+                ["MouseRay"] = {
+                    ["Normal"] = Vector3.xAxis,
+                    ["Direction"] = Vector3.new(-288.1358642578125, -6.781805515289307, 83.25703430175781),
+                    ["Origin"] = Vector3.new(989.3270263671875, 693.0791015625, -104.13453674316406),
+                    ["Instance"] = workspace:WaitForChild("Map"):WaitForChild("Part"),
+                    ["Distance"] = 44.97212219238281,
+                    ["Material"] = Enum.Material.Foil,
+                    ["Position"] = Vector3.new(946.1334228515625, 692.0624389648438, -91.65371704101562)
+                }
+            }
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+        wait(0.1)
+        char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+    end
+end
+
+
+uis.InputBegan:Connect(function(key, Istyping)
+    if key.KeyCode == Enum.KeyCode.M and Istyping == false then
+        if grinding == false then
+            grinding = true
+            char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0)
+            wait(1)
+			grind()
+        else
+            grinding = false
+        end
+    end
+end)
+
+uis.InputBegan:Connect(function(key, Istyping)
+    if key.KeyCode == Enum.KeyCode.N and Istyping == false then
+        if rendering == true then
+			game:GetService("RunService"):Set3dRenderingEnabled(false)
+        else
+			game:GetService("RunService"):Set3dRenderingEnabled(true)
+        end
+    end
+end)
