@@ -1,19 +1,22 @@
-local char = game:GetService('Players').LocalPlayer.Character
-local uis = game:GetService('UserInputService')
-local grinding = false
-local rendering = true
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+local Window = OrionLib:MakeWindow({Name = "Fruit | Battlegrounds", HidePremium = false, SaveConfig = false, ConfigFolder = "OrionTest"})
+local underground = false
+local running = false
+local selectedfruit = 'nil'
+
+local plr = game:GetService('Players').LocalPlayer
+local char = plr.Character
+
 local afkpart = Instance.new("Part", workspace)
 afkpart.Anchored = true
 afkpart.Size = Vector3.new(2000,1,2000)
 afkpart.Position = Vector3.new(979,685,-98)
 
-for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
-    warn('AFK bypassed')
-    v:Disable()
-end
 
-local function grind()
-    while grinding do     
+local function Paw()
+    while running do 
+		print('ok')   
         local args = {
             [1] = "Paw",
             [2] = "PressureCannon",
@@ -23,7 +26,9 @@ local function grind()
         game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
         
         wait(0.1)
-        char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0)     
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end    
         local args = {
             [1] = "Paw",
             [2] = "SonicStomp",
@@ -42,7 +47,9 @@ local function grind()
         
         game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
         wait(0.1)        
-        char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0)  
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end 
         local args = {
             [1] = "Paw",
             [2] = "SumoThrustBarrage",
@@ -61,7 +68,9 @@ local function grind()
         
         game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
         wait(0.1)        
-        char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end
         local args = {
             [1] = "Paw",
             [2] = "Torture",
@@ -80,32 +89,118 @@ local function grind()
         
         game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
         wait(0.1)
-        char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end
+		local args = {
+			[1] = "Paw",
+			[2] = "UrsusShock",
+			[3] = {
+				["MouseRay"] = {
+					["Normal"] = Vector3.xAxis,
+					["Direction"] = Vector3.new(-213.86656188964844, 16.883296966552734, 209.7046661376953),
+					["Origin"] = Vector3.new(974.20166015625, 690.3969116210938, -101.36966705322266),
+					["Instance"] = workspace:WaitForChild("Map"):WaitForChild("Part"),
+					["Distance"] = 39.37255096435547,
+					["Material"] = Enum.Material.Foil,
+					["Position"] = Vector3.new(946.1334228515625, 692.6127319335938, -73.84764099121094)
+				}
+			}
+		}
+		
+		game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+		wait(0.1)
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end
     end
 end
 
 
-uis.InputBegan:Connect(function(key, Istyping)
-    if key.KeyCode == Enum.KeyCode.M and Istyping == false then
-        if grinding == false then
-            grinding = true
-            char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0)
-            wait(1)
-			grind()
-        else
-            grinding = false
-        end
-    end
-end)
 
-uis.InputBegan:Connect(function(key, Istyping)
-    if key.KeyCode == Enum.KeyCode.N and Istyping == false then
-        if rendering == true then
-			game:GetService("RunService"):Set3dRenderingEnabled(false)
-            rendering = false
-        else
-			game:GetService("RunService"):Set3dRenderingEnabled(true)
-            rendering = true
-        end
-    end
-end)
+
+local AutofarmTab = Window:MakeTab({
+	Name = "Auto Farm",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local MiscTab = Window:MakeTab({
+	Name = "Misc",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+
+
+local XpFarmSection = AutofarmTab:AddSection({
+	Name = "Xp Farm"
+})
+local MainMiscSection = MiscTab:AddSection({
+	Name = "Main"
+})
+
+
+
+XpFarmSection:AddToggle({
+	Name = "Enabled",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+		running = Value
+		if Value == true then
+			if selectedfruit == 'Paw' then
+				Paw()
+				warn('PawRunning')
+			end
+		end
+	end    
+})
+
+XpFarmSection:AddDropdown({
+	Name = "Dropdown",
+	Default = "Paw",
+	Options = {"Paw", "Flame"},
+	Callback = function(Value)
+		print(Value)
+		selectedfruit = Value
+	end    
+})
+
+
+XpFarmSection:AddLabel("Settings")
+
+
+XpFarmSection:AddToggle({
+	Name = "Underground",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+		underground = Value
+	end    
+})
+
+XpFarmSection:AddToggle({
+	Name = "Rendering",
+	Default = true,
+	Callback = function(Value)
+		game:GetService("RunService"):Set3dRenderingEnabled(Value)
+	end    
+})
+
+
+MainMiscSection:AddButton({
+	Name = "Unload",
+	Callback = function()
+		OrionLib:Destroy()
+		running = false
+  	end    
+})
+
+OrionLib:MakeNotification({
+	Name = "Anti Afk",
+	Content = "Anti Afk Is Now Loaded",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+
+OrionLib:Init()
