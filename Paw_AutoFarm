@@ -102,8 +102,10 @@ uis.InputBegan:Connect(function(key, Istyping)
     if key.KeyCode == Enum.KeyCode.N and Istyping == false then
         if rendering == true then
 			game:GetService("RunService"):Set3dRenderingEnabled(false)
+            rendering = false
         else
 			game:GetService("RunService"):Set3dRenderingEnabled(true)
+            rendering = true
         end
     end
 end)
