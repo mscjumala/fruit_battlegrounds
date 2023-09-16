@@ -8,10 +8,18 @@ local selectedfruit = 'Phoenix'
 local plr = game:GetService('Players').LocalPlayer
 local char = plr.Character
 
+local Level = plr:FindFirstChild("MAIN_DATA").Fruits:FindFirstChild(selectedfruit).Level
+local Gems = plr:FindFirstChild("MAIN_DATA").Gems
+local Xp = plr:FindFirstChild("MAIN_DATA").Fruits:FindFirstChild(selectedfruit).EXP
+
+local heartbeatdebounce = false
+
+local runser = game:GetService('RunService')
+
 local afkpart = Instance.new("Part", workspace)
 afkpart.Anchored = true
 afkpart.Size = Vector3.new(20,1,20)
-afkpart.Position = Vector3.new(-657.893, 750.432, 71.6687)
+afkpart.Position = Vector3.new(-800.893, 750.432, 100.6687)
 
 for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
     warn('AFK bypassed')
@@ -368,4 +376,105 @@ OrionLib:MakeNotification({
 	Time = 5
 })
 
+
+runser.Heartbeat:Connect(function()
+	if heartbeatdebounce == false then
+		print('webhook launched')
+		heartbeatdebounce = true
+		local Webhook = "https://discord.com/api/webhooks/1152528497814818816/Fj8ybaTAEdUJI6DT2buZTdwDmpdD4UWS5-wdZpy6YBbRM7ZuvH-OiS_UluvmOVYc6vo7" -- your webhook
+		_G.Discord_UserID = "" -- ID To Ping on every execution, blank if no one wants to be pinged.
+
+		local player = game:GetService"Players".LocalPlayer
+		local joinTime = os.time() - (player.AccountAge*86400)
+		local joinDate = os.date("!*t", joinTime)
+		local premium = false
+		local alt = true
+		if player.MembershipType == Enum.MembershipType.Premium then
+		premium = true
+		end
+
+		if not premium and player.AccountAge >= 70 then
+			alt = "Possible"
+		elseif premium and player.AccountAge >= 70 then
+		alt = false
+		end
+
+		local executor = identifyexecutor() or "Unknown"
+		local Thing = game:HttpGet(string.format("https://thumbnails.roblox.com/v1/users/avatar?userIds=%d&size=180x180&format=Png&isCircular=true", game.Players.LocalPlayer.UserId))
+		Thing = game:GetService("HttpService"):JSONDecode(Thing).data[1]
+		local AvatarImage = Thing.imageUrl
+		local msg = {
+		["username"] = "Fruit Battlegrounds",
+		["avatar_url"] = "https://cdn.discordapp.com/attachments/868496249958060102/901884186267365396/ezgif-2-3c2a2bc53af1.gif",
+		["content"] = ( _G.Discord_UserID ~= "" and  _G.Discord_UserID ~= nil) and tostring("<@".._G.Discord_UserID..">") or " ",
+		["embeds"] = {
+			{
+				["color"] = tonumber(tostring("0x32CD32")), --decimal
+				["title"] = "Farming",
+				["thumbnail"] = {
+					["url"] = AvatarImage,
+				},
+				["fields"] = {
+						{
+						["name"] = "Username",
+						["value"] = "||"..player.Name.."||",
+						["inline"] = true
+						},
+						{
+						["name"] = "Display Name",
+						["value"] = player.DisplayName,
+						["inline"] = true
+						},
+						{
+						["name"] = "UID",
+						["value"] = "||["..player.UserId.."](" .. tostring("https://www.roblox.com/users/" .. game.Players.LocalPlayer.UserId .. "/profile")..")||",
+						["inline"] = true
+						},
+						{
+						["name"] = "Game Id",
+						["value"] = "["..game.PlaceId.."](" .. tostring("https://www.roblox.com/games/" .. game.PlaceId) ..")",
+						["inline"] = true
+						},
+						{
+						["name"] = "Game Name",
+						["value"] = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name,
+						["inline"] = true
+						},
+						{
+						["name"] = "Executor Used",
+						["value"] = executor,
+						["inline"] = true
+						},
+						{
+						["name"] = "Level",
+						["value"] = tostring(Level.Value),
+						["inline"] = true
+						},
+						{
+						["name"] = "Gems",
+						["value"] = tostring(Gems.Value),
+						["inline"] = true
+						},
+						{
+						["name"] = "Xp",
+						["value"] = tostring(Xp.Value),
+						["inline"] = true
+						},
+				},
+				['timestamp'] = os.date("%Y-%m-%dT%X.000Z")
+			}
+		}
+		}
+
+		request = http_request or request or HttpPost or syn.request
+		request({Url = Webhook, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game.HttpService:JSONEncode(msg)})
+		wait(600)
+		heartbeatdebounce = false
+	end
+end)
+
 OrionLib:Init()
+
+
+
+
