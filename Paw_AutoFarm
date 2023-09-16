@@ -18,9 +18,7 @@ for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
     v:Disable()
 end
 
-game:GetService("Players").LocalPlayer["MAIN_DATA"].Fruits:FindFirstChild(selectedfruit).Level.Changed:Connect(function()
-	warn(game:GetService("Players").LocalPlayer["MAIN_DATA"].Fruits:FindFirstChild(selectedfruit).Level.Value)
-end)
+
 
 local function Paw()
     while running do 
