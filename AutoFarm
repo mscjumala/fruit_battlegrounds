@@ -3,14 +3,12 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shl
 local Window = OrionLib:MakeWindow({Name = "Fruit | Battlegrounds", HidePremium = false, SaveConfig = false, ConfigFolder = "OrionTest"})
 local underground = false
 local running = false
-local selectedfruit = 'Phoenix'
+local selectedfruit = 'Barrier'
 
 local plr = game:GetService('Players').LocalPlayer
 local char = plr.Character
 
-local Level = plr:FindFirstChild("MAIN_DATA").Fruits:FindFirstChild(selectedfruit).Level
-local Gems = plr:FindFirstChild("MAIN_DATA").Gems
-local Xp = plr:FindFirstChild("MAIN_DATA").Fruits:FindFirstChild(selectedfruit).EXP
+
 
 local heartbeatdebounce = false
 
@@ -392,7 +390,7 @@ XpFarmSection:AddDropdown({
 		print(Value)
 		selectedfruit = Value
 	end    
-})
+})	
 
 
 XpFarmSection:AddLabel("Settings")
@@ -445,6 +443,9 @@ OrionLib:MakeNotification({
 
 runser.Heartbeat:Connect(function()
 	if heartbeatdebounce == false then
+		local Level = plr:FindFirstChild("MAIN_DATA").Fruits:FindFirstChild(selectedfruit).Level
+		local Gems = plr:FindFirstChild("MAIN_DATA").Gems
+		local Xp = plr:FindFirstChild("MAIN_DATA").Fruits:FindFirstChild(selectedfruit).EXP
 		print('webhook launched')
 		heartbeatdebounce = true
 		local Webhook = "https://discord.com/api/webhooks/1152528497814818816/Fj8ybaTAEdUJI6DT2buZTdwDmpdD4UWS5-wdZpy6YBbRM7ZuvH-OiS_UluvmOVYc6vo7" -- your webhook
