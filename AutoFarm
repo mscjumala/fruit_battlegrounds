@@ -272,7 +272,71 @@ local function Leopard()
 		end
     end
 end
+local function Barrier()
+    while running do 
+        local args = {
+            [1] = "Barrier",
+            [2] = "Barrier",
+            [3] = {}
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer(unpack(args))
+        wait(0.1)
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end
 
+		local args = {
+			[1] = "Barrier",
+			[2] = "Bubble",
+			[3] = {
+				["MouseRay"] = {
+					["Normal"] = Vector3.new(-220.99745178222656, 15.230993270874023, 202.3070831298828),
+					["Direction"] = Vector3.new(220.99745178222656, -15.230993270874023, -202.3070831298828),
+					["Position"] = Vector3.new(1192.0322265625, 677.5443725585938, -291.3684387207031),
+					["Origin"] = Vector3.new(971.0347900390625, 692.775390625, -89.06136322021484)
+				}
+			}
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer(unpack(args))
+		wait(0.1)
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end
+
+		local args = {
+			[1] = "Barrier",
+			[2] = "Crash",
+			[3] = {
+				["MouseRay"] = {
+					["Normal"] = Vector3.new(-216.89193725585938, 36.10396957397461, 204.0940704345703),
+					["Direction"] = Vector3.new(216.89193725585938, -36.10396957397461, -204.0940704345703),
+					["Position"] = Vector3.new(1188.1895751953125, 656.6644897460938, -293.4293212890625),
+					["Origin"] = Vector3.new(971.2976684570312, 692.7684326171875, -89.33524322509766)
+				}
+			}
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer(unpack(args))
+		wait(0.1)
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end
+
+		local args = {
+			[1] = "Barrier",
+			[2] = "Spikes",
+			[3] = {}
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("Replicator"):InvokeServer(unpack(args))
+		wait(0.1)
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end
+    end
+end
 
 local AutofarmTab = Window:MakeTab({
 	Name = "Auto Farm",
@@ -313,6 +377,8 @@ XpFarmSection:AddToggle({
 				Phoenix()
 			elseif selectedfruit == 'Leopard' then
 				Leopard()
+			elseif selectedfruit == 'Barrier' then
+				Barrier()
 			end
 		end
 	end    
@@ -321,7 +387,7 @@ XpFarmSection:AddToggle({
 XpFarmSection:AddDropdown({
 	Name = "Fruit",
 	Default = "Select",
-	Options = {"Paw", "Phoenix", 'Magma', 'Flame', 'Leopard'},
+	Options = {"Paw", "Phoenix", 'Leopard', 'Barrier'},
 	Callback = function(Value)
 		print(Value)
 		selectedfruit = Value
