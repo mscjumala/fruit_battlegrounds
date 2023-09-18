@@ -4,11 +4,13 @@ local Window = OrionLib:MakeWindow({Name = "Fruit | Battlegrounds", HidePremium 
 local underground = false
 local running = false
 local selectedfruit = 'Barrier'
+local timerdebounce = false
 
 local plr = game:GetService('Players').LocalPlayer
 local char = plr.Character
 
-
+local minutes = 0
+local hours = 0
 
 local heartbeatdebounce = false
 
@@ -335,6 +337,77 @@ local function Barrier()
 		end
     end
 end
+local function Barrier()
+    while running do 
+        local args = {
+            [1] = "TSRubber",
+            [2] = "JetPistol",
+            [3] = {}
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+        wait(0.1)
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end     
+        
+        local args = {
+            [1] = "TSRubber",
+            [2] = "JetGatling",
+            [3] = {
+                ["MouseRay"] = {
+                    ["Normal"] = Vector3.new(0.07433810085058212, 0.9944425821304321, -0.07455003261566162),
+                    ["Direction"] = Vector3.new(85.12879180908203, -134.61668395996094, 254.2271270751953),
+                    ["Origin"] = Vector3.new(399.7346496582031, 743.373046875, -687.5576782226562),
+                    ["Instance"] = workspace:WaitForChild("SafeZones"):WaitForChild("Dressrosa"):WaitForChild("MainColor"),
+                    ["Distance"] = 18.73426055908203,
+                    ["Material"] = Enum.Material.Slate,
+                    ["Position"] = Vector3.new(405.05072021484375, 734.966552734375, -671.6818237304688)
+                }
+            }
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+        wait(0.1)
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end        
+
+        local args = {
+            [1] = "TSRubber",
+            [2] = "RedHawk",
+            [3] = {}
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+        wait(0.1)
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end        
+
+        local args = {
+            [1] = "TSRubber",
+            [2] = "GrizzlyMagnum",
+            [3] = {
+                ["MouseRay"] = {
+                    ["Normal"] = Vector3.yAxis,
+                    ["Direction"] = Vector3.new(-68.82245635986328, -35.483360290527344, -289.8351135253906),
+                    ["Origin"] = Vector3.new(1202.83251953125, 692.2440795898438, -94.09042358398438),
+                    ["Instance"] = workspace:WaitForChild("Part"),
+                    ["Distance"] = 57.0189323425293,
+                    ["Material"] = Enum.Material.Plastic,
+                    ["Position"] = Vector3.new(1189.751953125, 685.5, -149.17739868164062)
+                }
+            }
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+        wait(0.1)
+		if underground then
+			char:FindFirstChild('HumanoidRootPart').CFrame = afkpart.CFrame * CFrame.new(0,2,0) 
+		end
+    end
+end
 
 local AutofarmTab = Window:MakeTab({
 	Name = "Auto Farm",
@@ -377,6 +450,8 @@ XpFarmSection:AddToggle({
 				Leopard()
 			elseif selectedfruit == 'Barrier' then
 				Barrier()
+			elseif selectedfruit == 'TSRubber' then
+
 			end
 		end
 	end    
@@ -385,7 +460,7 @@ XpFarmSection:AddToggle({
 XpFarmSection:AddDropdown({
 	Name = "Fruit",
 	Default = "Select",
-	Options = {"Paw", "Phoenix", 'Leopard', 'Barrier'},
+	Options = {"Paw", "Phoenix", 'Leopard', 'Barrier', 'TSRubber'},
 	Callback = function(Value)
 		print(Value)
 		selectedfruit = Value
@@ -498,13 +573,13 @@ runser.Heartbeat:Connect(function()
 						["inline"] = true
 						},
 						{
-						["name"] = "Game Id",
-						["value"] = "["..game.PlaceId.."](" .. tostring("https://www.roblox.com/games/" .. game.PlaceId) ..")",
+						["name"] = "Minutes",
+						["value"] = tostring(minutes),
 						["inline"] = true
 						},
 						{
-						["name"] = "Game Name",
-						["value"] = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name,
+						["name"] = "Hours",
+						["value"] = tostring(hours),
 						["inline"] = true
 						},
 						{
@@ -540,7 +615,26 @@ runser.Heartbeat:Connect(function()
 	end
 end)
 
+runser.Heartbeat:Connect(function()
+	if timerdebounce == false then
+		timerdebounce = true
+		print('minutes '..minutes)
+		print('hours '..hours)
+		if minutes <= 60 then
+			minutes += 1	
+		else
+			minutes = 1
+			hours += 1
+		end
+		wait(60)
+		timerdebounce = false
+	end
+end)
+
+
 OrionLib:Init()
+
+
 
 
 
